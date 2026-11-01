@@ -1,0 +1,36 @@
+### Deliverable D: Simulated Data Statement
+##### Project Title: Real-Time Network Intrusion Detection System (NIDS)
+**Team Identifier:**  Group 16 |  **Course:**  FUSE AI-201 Capstone
+In compliance with FUSE AI-201 Module 6 portfolio requirements, Group 16 explicitly details the origin, nature, and usage of real versus simulated data within this project:
+
+--------------------------------------------------------------------------------
+
+##### 1. Benchmark Dataset (Real Historical Telemetry)
+The machine learning classifier, feature transformation pipeline (ColumnTransformer), and baseline performance evaluations are grounded entirely in authentic benchmark telemetry from the public  **NSL-KDD dataset** .
+*   **Training Dataset (KDDTrain+.txt)** : Consists of 125,973 connection log records across 41 predictive attributes.
+*   **Isolated Test Dataset (KDDTest+.txt)** : Consists of 22,544 independent connection records used for final model validation.
+*   **Sample Inference File (sample_nsl_kdd_logs.csv)** : Extracted directly from NSL-KDD test logs to evaluate batch CSV parsing and single-connection UI forms within the Streamlit application.
+
+--------------------------------------------------------------------------------
+
+##### 2. Production Prediction Logs & Drift Simulation (Simulated Data Disclosure)
+To satisfy Module 6 MLOps requirements for  **Production Monitoring (Sub-Module 6.6)**  and  **Data/Concept Drift Detection (Sub-Module 6.7)**  prior to live enterprise deployment:
+*   **Prediction Log Database (predictions.db)** : We generated 21 days of synthetic inference request logs using an automated simulation script (simulate_logs.py). This logged input feature payloads, model confidence scores, status codes (including occasional 500 errors), and latency metrics.
+*   **Synthetic Drift Insertion** : To verify that our monitoring dashboard and SciPy/Evidently AI drift detection alerts function correctly, a synthetic distribution shift (elevated host connection counts and altered protocol proportions) was intentionally planted in the final 6 days of the log history.
+*   **Data Marking & Isolation** : Every synthetically generated record in SQLite is explicitly flagged with  **is_simulated = 1**  to prevent simulated monitoring data from polluting future real-world retraining pipelines.
+
+--------------------------------------------------------------------------------
+
+##### 3. Data Artifact Summary
+| Artifact Name | Data Origin | Record Volume | Purpose / Usage |
+| ------ | ------ | ------ | ------ |
+| KDDTrain+.txt | Real NSL-KDD | 125,973 records | Model training & feature scaling |
+| KDDTest+.txt | Real NSL-KDD | 22,544 records | Independent test evaluation |
+| sample_nsl_kdd_logs.csv | Real Subsample | 100 records | Streamlit UI batch ingestion testing |
+| predictions.db | Synthetic Script | 21 days simulated | MLOps monitoring & drift alert validation |
+
+
+--------------------------------------------------------------------------------
+
+##### Statement Certification
+*We hereby certify that all core model performance metrics and classification results presented in our capstone portfolio reflect real benchmark telemetry, while all monitoring logs and drift scenarios were synthetically generated strictly for operational testing purposes.*
