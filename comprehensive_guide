@@ -1,0 +1,31 @@
+### Real-Time Network Intrusion Detection System (NIDS): Comprehensive Project Implementation Guide
+*Group 16 Capstone Implementation Guide under FUSE AI-201 Module 5 Framework*
+#### 1. Executive Summary & Problem Framing
+Modern Security Operations Centers (SOCs) face alert fatigue caused by legacy rule-based Intrusion Detection Systems (IDS) with >90% false positive rates. Group 16's capstone formulates network intrusion detection as a 5-class machine learning classification problem using the NSL-KDD benchmark dataset (41 features).
+The 5 operational categories are:
+1.  **Normal Traffic**
+2.  **Denial of Service (DoS)**
+3.  **Surveillance / Probing**
+4.  **Remote-to-Local (R2L)**
+5.  **User-to-Root (U2R)**
+#### 2. Team Governance & Roles
+* **Member 1 (Lead):** Lechisa Kumela Kebebe — Project Governance & Responsible AI Policy
+* **Member 2 (Data Lead):** Amanuel Abera Kedida (with Abebaw Abebe Kassie as Domain Context Specialist) — NSL-KDD Data Ingestion & Splitting
+* **Member 3 (Preprocessing):** Wubneh Alemu Kelele — One-Hot Encoding & Feature Scaling
+* **Member 4 (ML Bagging):** Dawit Kene — Random Forest Pipeline Architecture
+* **Member 5 (ML Boosting):** Shambel Gashaw Kura — XGBoost Tuning & Benchmarking
+* **Member 6 (Imbalance Specialist):** Shambel Gashaw Kura — SMOTE Oversampling
+* **Member 7 (Evaluation):** Mesfin Mezgebu Legesse — Confusion Matrix & Diagnostic Metrics
+* **Member 8 (Explainability):** Thomas Gebre Lemma — SHAP Force & Attribution Plots
+* **Member 9 (Frontend):** Zigale Shegaw Lemech — Streamlit Web Application Prototype
+* **Member 10 (Deployment):** Biruk Lerebo Letebo — Docker Packaging, Latency Profile & CI/CD
+
+#### 3. Machine Learning Pipeline Architecture
+1.  **Categorical Encoding:**  One-Hot Encoder on protocol_type, service, flag.
+2.  **Numerical Scaling:**  Min-Max Scaler on 38 continuous/discrete numerical features.
+3.  **Imbalance Handling:**  SMOTE oversampling applied on training set.
+4.  **Classifier:**  Random Forest / XGBoost ensemble achieving Macro F1 ≥ 0.85 and sub-second inference latency (<1.0s / batch).
+#### 4. Responsible AI Principles
+*   **Human-in-the-Loop:**  Advisory decision-support system for SOC analysts.
+*   **Non-Enforcement:**  No automated packet dropping or active firewall manipulation.
+*   **Transparency:**  Integrated SHAP feature attribution to explain flagged security alerts.
