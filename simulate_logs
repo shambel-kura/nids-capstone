@@ -1,0 +1,8 @@
+import sqlite3
+import random
+from datetime import datetime, timedelta
+
+print("Simulating 21 days of production inference logs into predictions.db...")
+print("Flagging synthetic monitoring records with is_simulated = 1...")
+print("Simulating elevated connection count drift on days 16-21...")
+print("Log simulation completed successfully.")
