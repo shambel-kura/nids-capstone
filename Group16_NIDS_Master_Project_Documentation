@@ -1,0 +1,55 @@
+# Group 16 Real-Time Network Intrusion Detection System (NIDS): Master Project Documentation
+*FUSE AI-201 Capstone Project · Group 16 Master Portfolio*
+
+---
+
+## 1. Executive Summary & Problem Framing
+Modern Security Operations Centers (SOCs) face critical operational friction due to legacy rule-based Intrusion Detection Systems (IDS) generating alert fatigue with false positive rates exceeding **90%**. Group 16 formulates network intrusion detection as a **5-class machine learning classification problem** using the authentic **NSL-KDD benchmark dataset** (41 predictive features).
+
+### Threat Taxonomy
+1. **Normal Traffic**
+2. **Denial of Service (DoS)**
+3. **Surveillance / Probing**
+4. **Remote-to-Local (R2L)**
+5. **User-to-Root (U2R)**
+
+---
+
+#### 2. Team Governance & Roles
+* **Member 1 (Lead):** Lechisa Kumela Kebebe — Project Governance & Responsible AI Policy
+* **Member 2 (Data Lead):** Amanuel Abera Kedida (with Abebaw Abebe Kassie as Domain Context Specialist) — NSL-KDD Data Ingestion & Splitting
+* **Member 3 (Preprocessing):** Wubneh Alemu Kelele — One-Hot Encoding & Feature Scaling
+* **Member 4 (ML Bagging):** Dawit Kene — Random Forest Pipeline Architecture
+* **Member 5 (ML Boosting):** Shambel Gashaw Kura — XGBoost Tuning & Benchmarking
+* **Member 6 (Imbalance Specialist):** Shambel Gashaw Kura — SMOTE Oversampling
+* **Member 7 (Evaluation):** Mesfin Mezgebu Legesse — Confusion Matrix & Diagnostic Metrics
+* **Member 8 (Explainability):** Thomas Gebre Lemma — SHAP Force & Attribution Plots
+* **Member 9 (Frontend):** Zigale Shegaw Lemech — Streamlit Web Application Prototype
+* **Member 10 (Deployment):** Biruk Lerebo Letebo — Docker Packaging, Latency Profile & CI/CD
+
+
+---
+
+## 3. Machine Learning Architecture & Preprocessing Pipeline
+- **Three-Dataset Discipline:** 125,973 training records (`KDDTrain+.txt`), 15% validation split, and 22,544 isolated test records (`KDDTest+.txt`).
+- **Feature Pipeline (`ColumnTransformer`):** `OneHotEncoder` on 3 categorical features (`protocol_type`, `service`, `flag`) and `MinMaxScaler` on 38 numerical features, fitted strictly on the training partition.
+- **Class Imbalance Handling:** Synthetic Minority Over-sampling Technique (**SMOTE**) applied exclusively within training folds.
+- **Model Classifier:** Serialized **Random Forest Classifier (200 Estimators)** achieving a **Macro F1-Score of 0.86** and **Macro Recall of 0.84**.
+- **Inference Speed:** Verified automated latency of **0.042 seconds per record**, satisfying the sub-second constraint (<1.0s).
+
+---
+
+## 4. Responsible AI & Advisory Guardrails
+- **Human-in-the-Loop:** Designed strictly as an advisory decision-support system.
+- **100% Non-Enforcement Boundary:** Operates without automated packet dropping or active firewall manipulation.
+- **Explainability:** Features integrated **SHAP force and summary attribution plots** to give SOC analysts actionable context behind every threat prediction.
+
+---
+
+## 5. MLOps Monitoring & Simulated Data Statement
+- **Monitoring Plan:** Operational tracking of service health (p95 latency <800ms, HTTP 500 error rate <2.0%) alongside statistical monitoring (KS feature drift, PSI prediction shift >0.25).
+- **Data Origin & Disclosure:** Core classification model metrics reflect real NSL-KDD telemetry. Monitoring logs (`predictions.db`) spanning 21 days and synthetic drift scenarios (days 16–21) were synthetically generated and isolated with `is_simulated = 1`.
+
+---
+
+*Certified by Group 16 Capstone Project Team.*
