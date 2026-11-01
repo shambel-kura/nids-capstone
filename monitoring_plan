@@ -1,0 +1,14 @@
+# Group 16 NIDS Monitoring & Maintenance Plan
+
+## 1. System Health Monitoring
+- HTTP 500 error rate threshold: < 2.0%
+- p95 Inference Latency threshold: < 800ms
+
+## 2. Statistical & Drift Monitoring
+- Feature Drift: Kolmogorov-Smirnov test (drift alert threshold > 30% features shifted)
+- Prediction Drift: Population Stability Index (PSI > 0.25 triggers retraining alert)
+- Logging Isolation: Production logs stored in `predictions.db` with `is_simulated = 1` flag for synthetic verification records.
+
+## 3. Retraining Governance
+- Triggered quarterly or upon persistent drift alerts.
+- Human-in-the-loop validation gate required prior to MLflow artifact registration.
