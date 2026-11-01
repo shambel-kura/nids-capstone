@@ -1,0 +1,39 @@
+### Deliverable C: One-Page Written Retrospective
+##### Project Retrospective: Group 16 Real-Time Network Intrusion Detection System (NIDS)
+**Course:**  FUSE AI-201 (YEEAP Capstone) |  **Module:**  Module 6 AI Deployment, Monitoring, Support & Maintenance
+**Team Roster:**  Lechisa Kumela Kebebe (Co-Lead & Deployment Lead), Abebaw Abebe Kassie, Amanuel Abera Kedida, Wubneh Alemu Kelele, Dawit Kene, Shambel Gashaw Kura, Mesfin Mezgebu Legesse, Zigale Shegaw Lemech, Thomas Gebre Lemma, Biruk Lerebo Letebo.
+
+--------------------------------------------------------------------------------
+
+##### 1. Key Accomplishments & Technical Milestones
+Our team successfully transformed a static machine learning experiment into a fully containerized, production-monitored AI decision-support application designed to mitigate Security Operations Center (SOC) alert fatigue (>90% legacy false-alarm rate). Key achievements include:
+*   **Rigorous Performance Target Realization** : Evaluated on 22,544 isolated test records from the NSL-KDD benchmark, our serialized  **Random Forest + SMOTE classifier**  achieved an overall  **Macro F1-Score of 0.86**  and  **Macro Recall of 0.84** , surpassing our project success threshold of >= 0.85.
+*   **Sub-Second Real-Time Inference** : Automated Pytest suites (test_model_pipeline.py) verified an average batch execution latency of  **0.042 seconds per record** , comfortably under our 1.0-second operational constraint.
+*   **End-to-End MLOps Pipeline** : We engineered a complete deployment architecture integrating Scikit-learn feature transformers (ColumnTransformer), FastAPI REST endpoints with Pydantic schema verification, MLflow experiment tracking (sqlite:///mlflow.db), Docker containerization, and automated GitHub Actions CI/CD workflows (deploy.yml).
+*   **Responsible AI Implementation** : The system strictly operates under a  **100% Non-Enforcement Boundary** , pairing predictions with interactive  **SHAP feature attribution plots**  to empower SOC analysts without executing automated packet dropping.
+
+--------------------------------------------------------------------------------
+
+##### 2. Core Technical Challenges & Failure Mode Analysis
+*   **Imbalance Disparity on Stealth Exploits** : Despite applying SMOTE oversampling within X_train, performance on severe, low-frequency attack categories like  **User-to-Root (U2R)**  (Recall 0.71, F1 0.75) and  **Remote-to-Local (R2L)**  (Recall 0.74, F1 0.78) lagged behind high-volume classes like Normal Traffic (F1 0.96) and DoS (F1 0.93). This stemmed from U2R and R2L comprising less than 1% of raw benchmark records (52 and 995 instances, respectively), limiting synthetic variance.
+*   **Specific Misclassification Drivers** : Diagnostic error auditing revealed that  **23% of R2L errors**  occurred when stealth password-guessing attempts executed over standard HTTP/FTP ports with benign payload lengths, mimicking normal logins. Additionally, high-volume peak-hour traffic occasionally triggered false DoS warnings due to elevated host connection counts (>250).
+
+--------------------------------------------------------------------------------
+
+##### 3. Lessons Learned & Retrospective Insights
+*   **Strict Leakage Discipline Matters** : Enforcing the  **Three-Dataset Discipline**  (fitting OneHotEncoder and MinMaxScaler exclusively on the 70% training split) was essential to eliminate training-serving skew.
+*   **Interpretability Builds Analyst Trust** : Providing raw probability outputs was insufficient for SOC adoption; integrating SHAP attributions directly into our Streamlit UI (app.py) provided the transparency required to explain complex 41-feature predictions.
+
+--------------------------------------------------------------------------------
+
+##### 4. Future Roadmap & Strategic Improvements
+| Current Architecture Limitation | Proposed Retrospective Improvement |
+| ------ | ------ |
+| **Rare Stealth Attacks (U2R/R2L Recall Gap)** | Implement Focal Loss optimization & Autoencoder anomaly detectors |
+| **Static NSL-KDD Benchmark Telemetry** | Incorporate live eBPF/PCAP packet streaming telemetry ingestion |
+| **Advisory-Only / Non-Enforcement Scope** | Develop Hybrid Action Engine allowing automated rate-limiting above 98% probability |
+| **Static Offline Model Deployment** | Connect Evidently AI drift monitoring to automated MLflow retraining pipelines |
+
+
+--------------------------------------------------------------------------------
+
